@@ -4,41 +4,27 @@ import {
   Text,
   Image,
   StyleSheet,
-  TouchableOpacity,
   useWindowDimensions,
-  Alert,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Task } from "@/core/tasks/interfaces/task.interface";
 import IconAndTexTag from "./IconAndTexTag";
 import { usePointEstimateToNumber } from "../../helper/pointEstimateToNumber";
 import { getTagColor } from "../../helper/getTagColor";
+import TaskMenu from "../TaskMenu";
 
 interface Props {
   task: Task;
 }
 export const TaskCard = ({ task }: Props) => {
-  const { width } = useWindowDimensions(); 
+  const { width } = useWindowDimensions();
   const pointEstimateToNumber = usePointEstimateToNumber();
-  const onDeleteClick = (taskName: string) => {
-    Alert.alert("Delete Task", `Are you sure you want to delete the ${taskName} task?`, [
-      {
-        text: "Cancel",
-        style: "cancel",
-      },
-      {
-        text: "Delete",
-        style: "destructive",
-      },
-  ]);
-};
+
   return (
     <View style={{ ...styles.card, width: width * 0.9 }}>
       <View style={styles.header}>
         <Text style={styles.title}>{task.name}</Text>
-        <TouchableOpacity onPress={ () => onDeleteClick(task.name) }>
-          <Ionicons name="ellipsis-vertical" size={20} color="white" />
-        </TouchableOpacity>
+        <TaskMenu onDelete={() => {}} onEdit={() => {}} />
       </View>
 
       {/* Puntuación y Etiquetas */}
@@ -52,7 +38,10 @@ export const TaskCard = ({ task }: Props) => {
       {/* Tags */}
       <View style={styles.tagContainer}>
         {task.tags.map((tag, index) => (
-          <View key={index} style={[styles.label,{ backgroundColor: getTagColor(tag) }]}>
+          <View
+            key={index}
+            style={[styles.label, { backgroundColor: getTagColor(tag) }]}
+          >
             <Text style={styles.labelText}>{tag}</Text>
           </View>
         ))}
@@ -94,7 +83,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 5,
+    marginBottom: 10,
   },
   title: {
     color: "white",
@@ -140,7 +129,7 @@ const styles = StyleSheet.create({
   tagContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 4
+    gap: 4,
   },
 });
 
