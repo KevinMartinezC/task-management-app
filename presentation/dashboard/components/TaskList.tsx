@@ -8,7 +8,7 @@ import {
 import React from "react";
 import { Task } from "@/core/tasks/interfaces/task.interface";
 import TaskCard from "./taskcard/CardComponent";
-import { groupTasksByStatus } from "../helper/groupTasksByStatus";
+import { groupTasksByStatus } from "../utils/groupTasksByStatus";
 
 interface Props {
   tasks: Task[];

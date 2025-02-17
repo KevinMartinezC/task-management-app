@@ -9,8 +9,8 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { Task } from "@/core/tasks/interfaces/task.interface";
 import IconAndTexTag from "./IconAndTexTag";
-import { usePointEstimateToNumber } from "../../helper/pointEstimateToNumber";
-import { getTagColor } from "../../helper/getTagColor";
+import { usePointEstimateToNumber } from "../../utils/pointEstimateToNumber";
+import { getTagColor } from "../../utils/getTagColor";
 import TaskMenu from "../TaskMenu";
 
 interface Props {
