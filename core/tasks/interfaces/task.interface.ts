@@ -9,7 +9,7 @@ export interface Task {
   position: number;
   pointEstimate: string;
   id: string;
-  dueDate: Date;
+  dueDate: string;
   creator: Creator;
   createdAt: string;
   assignee?: Creator;
