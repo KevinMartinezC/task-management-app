@@ -24,5 +24,15 @@ const authLink = setContext((_, { headers }) => {
 
 export const apolloClient = new ApolloClient({
   link: ApolloLink.from([authLink, httpLink]), // Middleware + HTTP Link
-  cache: new InMemoryCache(),
+  cache: new InMemoryCache({
+    typePolicies: {
+      Query: {
+        fields: {
+          tasks: {
+            merge: false,
+          },
+        },
+      },
+    },
+  }),
 });

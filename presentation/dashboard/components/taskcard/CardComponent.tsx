@@ -12,6 +12,8 @@ import IconAndTexTag from "./IconAndTexTag";
 import { usePointEstimateToNumber } from "../../utils/pointEstimateToNumber";
 import { getTagColor } from "../../utils/getTagColor";
 import TaskMenu from "../TaskMenu";
+import { onDeleteAlert } from "../../utils/onDeleteAlert";
+import { useTasks } from "../../hooks/useTasks";
 
 interface Props {
   task: Task;
@@ -19,12 +21,20 @@ interface Props {
 export const TaskCard = ({ task }: Props) => {
   const { width } = useWindowDimensions();
   const pointEstimateToNumber = usePointEstimateToNumber();
+  const { deleteTask } = useTasks();
+
+  const onDelete = () => {
+    onDeleteAlert({
+      taskName: task.name,
+      onDeleteClick: () => deleteTask(task.id),
+    });
+  };
 
   return (
     <View style={{ ...styles.card, width: width * 0.9 }}>
       <View style={styles.header}>
         <Text style={styles.title}>{task.name}</Text>
-        <TaskMenu onDelete={() => {}} onEdit={() => {}} />
+        <TaskMenu onDelete={onDelete} onEdit={() => {}} />
       </View>
 
       {/* Puntuación y Etiquetas */}

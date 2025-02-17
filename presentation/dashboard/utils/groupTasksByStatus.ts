@@ -28,5 +28,5 @@ export const groupTasksByStatus = (tasks: Task[]) => {
       title: `${statusMapping[status] || status} (${grouped[status].length})`,
       data: grouped[status],
     }));
-  }, tasks);
+  }, [tasks]);
 };
