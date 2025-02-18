@@ -1,8 +1,9 @@
-import { View, Text, ActivityIndicator, StyleSheet, Platform } from "react-native";
+import { View, ActivityIndicator, StyleSheet, Platform } from "react-native";
 import React from "react";
 import { useTasks } from "@/presentation/dashboard/hooks/useTasks";
 import { FAB } from "@/presentation/theme/components/FAB";
 import TaskList from "@/presentation/dashboard/components/TaskList";
+import { router } from "expo-router";
 
 const DashboardScreen = () => {
   const { tasksQuery } = useTasks();
@@ -12,9 +13,8 @@ const DashboardScreen = () => {
 
   return (
     <View style={style.container}>
-      <Text>Dashboard Screen</Text>
       <TaskList tasks={tasksQuery.data.tasks}/>
-      <FAB iconName="add-outline" onPress={() => console.log("")}/>
+      <FAB iconName="add-outline" onPress={() => router.push("/createTask")}/>
     </View>
   );
 };

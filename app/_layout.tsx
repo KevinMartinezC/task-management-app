@@ -12,8 +12,9 @@ import "react-native-reanimated";
 import { useColorScheme } from "@/presentation/theme/hooks/useColorScheme";
 import { ApolloProvider } from "@apollo/client";
 import { apolloClient } from "@/core/api/ApolloClient";
-import { useThemeColor } from "@/presentation/theme/hooks/useThemeColor";
 import { PaperProvider } from "react-native-paper";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -35,6 +36,7 @@ export default function RootLayout() {
   }
 
   return (
+    <GestureHandlerRootView>
     <ApolloProvider client={apolloClient}>
       <PaperProvider>
         <ThemeProvider
@@ -42,11 +44,17 @@ export default function RootLayout() {
         >
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="createTask" options={{
+              title: "Create Task",
+              headerBackTitle: "Back",
+            }}
+            />
             <Stack.Screen name="+not-found" />
           </Stack>
           <StatusBar style="auto" />
         </ThemeProvider>
         </PaperProvider>
     </ApolloProvider>
+    </GestureHandlerRootView>
   );
 }
