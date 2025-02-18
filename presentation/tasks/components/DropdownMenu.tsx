@@ -12,6 +12,7 @@ interface Props {
   options: MenuOptions[];
   defaultOption?: string;
   leftLabel?: string;
+  leftIcon?: keyof typeof Ionicons.glyphMap;
   onSeclect: (option: string) => void;
 }
 
@@ -19,6 +20,7 @@ const RowWithMenu = ({
   options,
   defaultOption,
   leftLabel = "Estimate",
+  leftIcon = "add-outline",
   onSeclect,
 }: Props) => {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -39,14 +41,13 @@ const RowWithMenu = ({
     <View style={styles.rowContainer}>
       <View style={styles.leftSection}>
         <Ionicons
-          name="add-outline"
+          name={leftIcon}
           size={20}
           color="#fff"
           style={{ marginRight: 8 }}
         />
         <Text style={styles.text}>{selectedOption || leftLabel}</Text>
       </View>
-      ={" "}
       <Menu
         visible={menuVisible}
         onDismiss={closeMenu}

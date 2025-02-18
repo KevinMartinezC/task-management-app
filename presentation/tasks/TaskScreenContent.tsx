@@ -3,14 +3,28 @@ import ThemedTextInput from "../theme/components/ThemedTextInput";
 import ThemedButton from "../theme/components/ThemedButton";
 import RowWithMenu from "./components/DropdownMenu";
 import { estimatePointsOptions } from "./utils/estimatePoint";
+import { User } from "@/core/user/interfaces/users.interface";
+import { generateUserList } from "./utils/userListHelper";
 
-const TaskScreenContent = () => {
+interface Props {
+  users: User[];
+}
+
+const TaskScreenContent = ({ users }: Props) => {
+  const usersList = generateUserList(users);
+
   return (
     <View style={styles.container}>
       <ThemedTextInput placeholder="Task title" />
       <RowWithMenu
         options={estimatePointsOptions}
         leftLabel="Estimate"
+        onSeclect={() => {}}
+      />
+      <RowWithMenu
+        options={usersList}
+        leftLabel="Assignee"
+        leftIcon="person-outline"
         onSeclect={() => {}}
       />
       <View style={styles.buttonContainer}>

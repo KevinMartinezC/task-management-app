@@ -6,3 +6,4 @@ export const estimatePointsOptions = pointsArray.map((point) => ({
   label: `${point} Points`,
   leadingElement: <Ionicons name="timer-outline" size={18} color="white" />,
 }));
+
