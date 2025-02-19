@@ -1,32 +1,54 @@
 import { View, StyleSheet, Platform } from "react-native";
 import ThemedTextInput from "../theme/components/ThemedTextInput";
 import ThemedButton from "../theme/components/ThemedButton";
-import RowWithMenu from "./components/DropdownMenu";
+import DropdownMenuComponent from "./components/DropdownMenu";
 import { estimatePointsOptions } from "./utils/estimatePoint";
 import { User } from "@/core/user/interfaces/users.interface";
 import { generateUserList } from "./utils/userListHelper";
+import MultiSelectDropdown from "./components/MultiSelectDropdown";
+import { useState } from "react";
+import { ThemedText } from "../theme/components/ThemedText";
+import DatePickerComponent from "./components/DatePickerComponent";
 
 interface Props {
   users: User[];
 }
+const options = [{ label: "IOS" }, { label: "Android" }, { label: "React" }];
 
 const TaskScreenContent = ({ users }: Props) => {
   const usersList = generateUserList(users);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [taskDate, setTaskDate] = useState<Date>(new Date());
 
   return (
     <View style={styles.container}>
-      <ThemedTextInput placeholder="Task title" />
-      <RowWithMenu
+      <ThemedText children={"Title"} style={{ marginVertical: 6 }} />
+      <ThemedTextInput placeholder="Task title" style={styles.inputStyle} />
+      <ThemedText children={"Estimate"} style={{ marginVertical: 6 }} />
+      <DropdownMenuComponent
         options={estimatePointsOptions}
         leftLabel="Estimate"
+        leftIcon="time-outline"
         onSeclect={() => {}}
       />
-      <RowWithMenu
+      <ThemedText children={"Assignee"} style={{ marginVertical: 6 }} />
+      <DropdownMenuComponent
         options={usersList}
         leftLabel="Assignee"
         leftIcon="person-outline"
         onSeclect={() => {}}
       />
+
+      <ThemedText children={"Labels"} style={{ marginVertical: 6 }} />
+      <MultiSelectDropdown
+        options={options}
+        selectedOptions={selectedTags}
+        onSelect={setSelectedTags}
+      />
+
+      <ThemedText children={"Due Date"} style={{ marginVertical: 6 }} />
+      <DatePickerComponent/>
+
       <View style={styles.buttonContainer}>
         <ThemedButton children="Create" />
       </View>
@@ -46,5 +68,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     marginBottom: Platform.OS === "ios" ? 40 : 10,
     marginHorizontal: 20,
+  },
+  inputStyle: {
+    marginVertical: Platform.OS === "ios" ? 10 : 0,
   },
 });

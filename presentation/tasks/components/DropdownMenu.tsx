@@ -41,7 +41,7 @@ const RowWithMenu = ({
     <View style={styles.rowContainer}>
       <View style={styles.leftSection}>
         <Ionicons
-          name={leftIcon}
+          name={leftIcon ?? "chevron-down"}
           size={20}
           color="#fff"
           style={{ marginRight: 8 }}
