@@ -1,38 +1,40 @@
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, useColorScheme, Platform } from "react-native";
 import { Button } from "react-native-paper";
-import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import DateTimePicker, { DateTimePickerAndroid } from "@react-native-community/datetimepicker";
 
-const DatePickerComponent = () => {
-  const [date, setDate] = useState(new Date());
-  const colorScheme = useColorScheme(); // Detect dark mode
+interface DatePickerProps {
+  date: Date;
+  onChange: (date: Date) => void;
+}
+
+const DatePickerComponent = ({ date, onChange }: DatePickerProps) => {
+  const colorScheme = useColorScheme();
 
   const showPicker = () => {
-    if (Platform.OS === 'android') {
+    if (Platform.OS === "android") {
       DateTimePickerAndroid.open({
         value: date,
         onChange: (event, selectedDate) => {
-          if (selectedDate) setDate(selectedDate);
+          if (selectedDate) onChange(selectedDate);
         },
-        mode: 'date',
+        mode: "date",
         is24Hour: true,
-        display: 'calendar', // Ensures proper UI on Android
+        display: "calendar",
       });
     }
   };
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: colorScheme === "dark" ? "#121212" : "#FFF" }}>
+    <View style={{ alignItems: "center", marginBottom: 10 }}>
       <Button onPress={showPicker}>Select Date</Button>
 
-      {/* iOS Picker (Android uses imperative API above) */}
-      {Platform.OS === 'ios' && (
+      {Platform.OS === "ios" && (
         <DateTimePicker
           value={date}
           mode="date"
-          themeVariant="dark"
           onChange={(event, selectedDate) => {
-            if (selectedDate) setDate(selectedDate);
+            if (selectedDate) onChange(selectedDate);
           }}
         />
       )}
@@ -45,4 +47,3 @@ const DatePickerComponent = () => {
 };
 
 export default DatePickerComponent;
-

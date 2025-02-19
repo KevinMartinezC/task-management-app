@@ -6,6 +6,7 @@ import { Menu, IconButton } from "react-native-paper";
 interface MenuOptions {
   label: string;
   leadingElement?: React.ReactNode;
+  value: string
 }
 
 interface Props {
@@ -20,7 +21,7 @@ const RowWithMenu = ({
   options,
   defaultOption,
   leftLabel = "Estimate",
-  leftIcon = "add-outline",
+  leftIcon,
   onSeclect,
 }: Props) => {
   const [menuVisible, setMenuVisible] = useState(false);
@@ -31,9 +32,9 @@ const RowWithMenu = ({
   const openMenu = () => setMenuVisible(true);
   const closeMenu = () => setMenuVisible(false);
 
-  const handleSelect = (option: any) => {
-    setSelectedOption(option);
-    onSeclect(option);
+  const handleSelect = (option: MenuOptions) => {
+    setSelectedOption(option.label);
+    onSeclect(option.value);
     closeMenu();
   };
 
@@ -63,7 +64,7 @@ const RowWithMenu = ({
         {options.map((option) => (
           <Menu.Item
             key={option.label}
-            onPress={() => handleSelect(option.label)}
+            onPress={() => handleSelect(option)}
             title={option.label}
             leadingIcon={() => option.leadingElement || null}
           />
