@@ -10,6 +10,7 @@ import { generateUserList } from "./utils/userListHelper";
 import MultiSelectDropdown from "./components/MultiSelectDropdown";
 import { ThemedText } from "../theme/components/ThemedText";
 import DatePickerComponent from "./components/DatePickerComponent";
+import { statusOptions } from "./utils/statusHelper";
 
 interface Props {
   users: User[];
@@ -27,13 +28,12 @@ const TaskScreenContent = ({ users }: Props) => {
       tags: [],
       assigneeId: "",
       pointEstimate: "",
+      status: "",
       dueDate: new Date(),
     },
   });
-  const usersList = generateUserList(users);
-  const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const [taskDate, setTaskDate] = useState<Date>(new Date());
 
+  const usersList = generateUserList(users);
   const onSubmit = (data: any) => {
     console.log("form data", data);
   };
@@ -78,6 +78,25 @@ const TaskScreenContent = ({ users }: Props) => {
           children={errors.pointEstimate.message}
           style={styles.errorText}
         />
+      )}
+
+      {/* Estimate */}
+      <ThemedText children={"Status"} style={styles.label} />
+      <Controller
+        control={control}
+        name="status"
+        rules={{ required: "Status is required" }}
+        render={({ field: { onChange } }) => (
+          <DropdownMenuComponent
+            options={statusOptions}
+            leftLabel="Select Status"
+            leftIcon="list-outline"
+            onSeclect={onChange}
+          />
+        )}
+      />
+      {errors.status && (
+        <ThemedText children={errors.status.message} style={styles.errorText} />
       )}
 
       {/* Assignee */}
