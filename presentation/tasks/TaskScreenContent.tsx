@@ -2,26 +2,25 @@ import { View, StyleSheet, Platform, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import ThemedTextInput from "../theme/components/ThemedTextInput";
 import DropdownMenuComponent from "./components/DropdownMenu";
-import { estimatePointsOptions } from "./utils/estimatePoint";
+import { estimatePointsOptions, getPointEstimateLabel } from "./utils/estimatePoint";
 import { User } from "@/core/user/interfaces/users.interface";
-import { generateUserList } from "./utils/userListHelper";
+import { generateUserList, getAssigneeName } from "./utils/userListHelper";
 import MultiSelectDropdown from "./components/MultiSelectDropdown";
 import { ThemedText } from "../theme/components/ThemedText";
 import DatePickerComponent from "./components/DatePickerComponent";
-import { statusOptions } from "./utils/statusHelper";
+import { getStatusLabel, statusLabels, statusOptions } from "./utils/statusHelper";
 import { useTasks } from "../dashboard/hooks/useTasks";
 import { Button } from "react-native-paper";
 import { useThemeColor } from "../theme/hooks/useThemeColor";
-import { useLocalSearchParams, useNavigation } from "expo-router";
 
 interface Props {
   users: User[];
+  taskData: TaskData
 }
 
 const options = [{ label: "IOS" }, { label: "ANDROID" }, { label: "REACT" }];
 
-const TaskScreenContent = ({ users }: Props) => {
-  const { id } = useLocalSearchParams();
+const TaskScreenContent = ({ users, taskData }: Props) => {
   const primaryColor = useThemeColor({}, "primary");
   const { createTask, loading, error } = useTasks();
   const {
@@ -30,12 +29,12 @@ const TaskScreenContent = ({ users }: Props) => {
     formState: { errors },
   } = useForm<TaskData>({
     defaultValues: {
-      name: "",
-      tags: [],
-      assigneeId: "",
-      pointEstimate: "",
-      status: "",
-      dueDate: "",
+      name: taskData.name,
+      pointEstimate: getPointEstimateLabel(taskData.pointEstimate),
+      status: getStatusLabel(taskData.status as keyof typeof statusLabels), // ✅ Ensure correct type
+      assigneeId: getAssigneeName(taskData.assigneeId, users),
+      tags: taskData.tags,
+      dueDate: taskData.dueDate,
     },
   });
 
@@ -80,9 +79,10 @@ const TaskScreenContent = ({ users }: Props) => {
           control={control}
           name="pointEstimate"
           rules={{ required: "Estimate is required" }}
-          render={({ field: { onChange } }) => (
+          render={({ field: { onChange, value } }) => (
             <DropdownMenuComponent
               options={estimatePointsOptions}
+              selectedValue={value}
               leftLabel="Estimate"
               leftIcon="time-outline"
               onSeclect={onChange}
@@ -102,9 +102,10 @@ const TaskScreenContent = ({ users }: Props) => {
           control={control}
           name="status"
           rules={{ required: "Status is required" }}
-          render={({ field: { onChange } }) => (
+          render={({ field: { onChange, value } }) => (
             <DropdownMenuComponent
               options={statusOptions}
+              selectedValue={value}
               leftLabel="Select Status"
               leftIcon="list-outline"
               onSeclect={onChange}
@@ -123,11 +124,12 @@ const TaskScreenContent = ({ users }: Props) => {
         <Controller
           control={control}
           name="assigneeId"
-          render={({ field: { onChange } }) => (
+          render={({ field: { onChange , value} }) => (
             <DropdownMenuComponent
               options={usersList}
               leftLabel="Assignee"
               leftIcon="person-outline"
+              selectedValue={value}
               onSeclect={onChange}
             />
           )}

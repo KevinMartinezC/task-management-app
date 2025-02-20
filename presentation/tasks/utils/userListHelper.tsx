@@ -21,3 +21,12 @@ export const generateUserList = (users: User[]) => {
     ),
   }));
 };
+
+export const getAssigneeName = (
+  assigneeId: string | undefined,
+  users: User[]
+) => {
+  if (!assigneeId) return ""; // Default empty string
+  const foundUser = users.find((user) => user.id === assigneeId);
+  return foundUser ? foundUser.fullName : ""; // Return user name
+};

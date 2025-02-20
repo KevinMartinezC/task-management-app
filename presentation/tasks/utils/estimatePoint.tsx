@@ -18,3 +18,10 @@ export const estimatePointsOptions = pointsArray.map((point, index) => ({
   value: numberWords[index],
   leadingElement: <Ionicons name="timer-outline" size={18} color="white" />,
 }));
+
+
+export const getPointEstimateLabel = (estimate: string | undefined) => {
+  if (!estimate) return ""; // Default empty string
+  const found = estimatePointsOptions.find((option) => option.value === estimate);
+  return found ? found.label : ""; // Return the label (e.g., "8 Points")
+};

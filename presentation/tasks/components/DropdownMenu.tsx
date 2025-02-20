@@ -11,7 +11,7 @@ interface MenuOptions {
 
 interface Props {
   options: MenuOptions[];
-  defaultOption?: string;
+  selectedValue?: string;
   leftLabel?: string;
   leftIcon?: keyof typeof Ionicons.glyphMap;
   onSeclect: (option: string) => void;
@@ -19,14 +19,14 @@ interface Props {
 
 const RowWithMenu = ({
   options,
-  defaultOption,
+  selectedValue,
   leftLabel = "Estimate",
   leftIcon,
   onSeclect,
 }: Props) => {
   const [menuVisible, setMenuVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>(
-    defaultOption ?? ""
+    selectedValue ?? ""
   );
 
   const openMenu = () => setMenuVisible(true);

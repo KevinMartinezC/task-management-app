@@ -11,10 +11,12 @@ export const CREATE_TASK_QUERY = gql`
       pointEstimate
       dueDate
       creator {
+        id
         fullName
         email
       }
       assignee {
+        id
         fullName
         email
         avatar

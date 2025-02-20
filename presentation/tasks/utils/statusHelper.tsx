@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 
-const statusLabels = {
+export const statusLabels = {
   BACKLOG: "Backlog",
   CANCELLED: "Cancelled",
   DONE: "Done",
@@ -12,8 +12,12 @@ export const statusOptions = Object.entries(statusLabels).map(
   ([value, label]) => ({
     label,
     value,
-    leadingElement: (
-      <Ionicons name="layers-outline" size={18} color="white" />
-    ),
+    leadingElement: <Ionicons name="layers-outline" size={18} color="white" />,
   })
 );
+
+export const getStatusLabel = (
+  status: keyof typeof statusLabels | undefined
+): string => {
+  return status ? statusLabels[status] ?? "" : "";
+};
