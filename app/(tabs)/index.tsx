@@ -14,7 +14,7 @@ const DashboardScreen = () => {
   return (
     <View style={style.container}>
       <TaskList tasks={tasksQuery.data.tasks}/>
-      <FAB iconName="add-outline" onPress={() => router.push("/createTask")}/>
+      <FAB iconName="add-outline" onPress={() => router.push(`/task/new`)}/>
     </View>
   );
 };

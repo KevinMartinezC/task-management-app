@@ -12,13 +12,16 @@ import { statusOptions } from "./utils/statusHelper";
 import { useTasks } from "../dashboard/hooks/useTasks";
 import { Button } from "react-native-paper";
 import { useThemeColor } from "../theme/hooks/useThemeColor";
+import { useLocalSearchParams, useNavigation } from "expo-router";
 
 interface Props {
   users: User[];
 }
+
 const options = [{ label: "IOS" }, { label: "ANDROID" }, { label: "REACT" }];
 
 const TaskScreenContent = ({ users }: Props) => {
+  const { id } = useLocalSearchParams();
   const primaryColor = useThemeColor({}, "primary");
   const { createTask, loading, error } = useTasks();
   const {

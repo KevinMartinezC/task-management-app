@@ -14,6 +14,7 @@ import { getTagColor } from "../../utils/getTagColor";
 import TaskMenu from "../TaskMenu";
 import { onDeleteAlert } from "../../utils/onDeleteAlert";
 import { useTasks } from "../../hooks/useTasks";
+import { router } from "expo-router";
 
 interface Props {
   task: Task;
@@ -29,12 +30,11 @@ export const TaskCard = ({ task }: Props) => {
       onDeleteClick: () => deleteTask(task.id),
     });
   };
-
   return (
     <View style={{ ...styles.card, width: width * 0.9 }}>
       <View style={styles.header}>
         <Text style={styles.title}>{task.name}</Text>
-        <TaskMenu onDelete={onDelete} onEdit={() => {}} />
+        <TaskMenu onDelete={onDelete} onEdit={() => router.push(`/task/${task.id}`)} />
       </View>
 
       {/* Puntuación y Etiquetas */}
