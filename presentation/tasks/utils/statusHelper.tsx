@@ -13,7 +13,7 @@ export const statusOptions = Object.entries(statusLabels).map(
     label,
     value,
     leadingElement: (
-      <Ionicons name="checkmark-circle-outline" size={18} color="white" />
+      <Ionicons name="layers-outline" size={18} color="white" />
     ),
   })
 );

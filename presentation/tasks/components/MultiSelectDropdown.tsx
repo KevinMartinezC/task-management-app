@@ -94,7 +94,7 @@ const CustomMultiSelect = ({
 
           {/* Right icon: chevron */}
           <Ionicons
-            name="chevron-down"
+            name="add-outline"
             size={25}
             color="#fff"
             style={{ marginRight: 16 }}
