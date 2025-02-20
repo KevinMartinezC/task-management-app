@@ -43,7 +43,7 @@ const DashboardScreen = () => {
             style={style.icon}
           />
         </TouchableOpacity>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={ () => router.push("/profile")}>
           <Image
             source={{ uri: "https://randomuser.me/api/portraits/men/32.jpg" }}
             style={style.avatar}

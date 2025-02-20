@@ -51,6 +51,11 @@ export default function RootLayout() {
               headerBackTitle: "Back",
             }}
             />
+             <Stack.Screen name="profile/index" options={{
+              title: "Profile",
+              headerBackTitle: "Back",
+            }}
+            />
             <Stack.Screen name="+not-found" />
           </Stack>
           <StatusBar style="auto" />
