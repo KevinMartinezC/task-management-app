@@ -5,6 +5,7 @@ import { DELETE_TASK } from "@/core/queries/delete-task.query";
 import { Alert } from "react-native";
 import { useRef } from "react";
 import { CREATE_TASK_QUERY } from "@/core/queries/create-task.query";
+import { UPDATE_TASK_QUERY } from "@/core/queries/update-task.query";
 
 export const useTasks = () => {
   const tasksQuery = useQuery<TaskResponse>(GET_TASKS, {
@@ -75,6 +76,39 @@ export const useTasks = () => {
     }
   );
 
+  const [updateTaskMutation] = useMutation(UPDATE_TASK_QUERY, {
+    update(cache, { data }) {
+      if (!data) return;
+  
+      const updatedTask = data.updateTask; 
+  
+      const existingTasks = cache.readQuery<TaskResponse>({
+        query: GET_TASKS,
+        variables: { input: {} },
+      });
+  
+      if (existingTasks) {
+        cache.writeQuery<TaskResponse>({
+          query: GET_TASKS,
+          variables: { input: {} },
+          data: {
+            tasks: existingTasks.tasks.map((task) =>
+              task.id === updatedTask.id ? updatedTask : task
+            ),
+          },
+        });
+      }
+    },
+  
+    onCompleted() {
+      Alert.alert("Task Updated", "The task was successfully updated!");
+    },
+  
+    onError() {
+      Alert.alert("Error", "There was an error updating the task");
+    },
+  });  
+
   const deleteTask = async (taskId: string) => {
     try {
       id.current = taskId;
@@ -102,10 +136,23 @@ export const useTasks = () => {
     }
   };
 
+  const updateTask = async (taskData: TaskData) => {
+    try {
+      await updateTaskMutation({
+        variables: {
+          input: taskData,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return {
     tasksQuery,
     loading,
     error,
+    updateTask,
     deleteTask,
     createTask,
   };

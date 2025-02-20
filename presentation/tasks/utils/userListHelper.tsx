@@ -1,5 +1,4 @@
 import { User } from "@/core/user/interfaces/users.interface";
-import { validate } from "graphql";
 import { View, Image } from "react-native";
 
 export const generateUserList = (users: User[]) => {

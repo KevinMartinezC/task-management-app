@@ -2,27 +2,34 @@ import { View, StyleSheet, Platform, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import ThemedTextInput from "../theme/components/ThemedTextInput";
 import DropdownMenuComponent from "./components/DropdownMenu";
-import { estimatePointsOptions, getPointEstimateLabel } from "./utils/estimatePoint";
+import {
+  estimatePointsOptions,
+  getPointEstimateLabel,
+} from "./utils/estimatePoint";
 import { User } from "@/core/user/interfaces/users.interface";
 import { generateUserList, getAssigneeName } from "./utils/userListHelper";
 import MultiSelectDropdown from "./components/MultiSelectDropdown";
 import { ThemedText } from "../theme/components/ThemedText";
 import DatePickerComponent from "./components/DatePickerComponent";
-import { getStatusLabel, statusLabels, statusOptions } from "./utils/statusHelper";
+import {
+  getStatusLabel,
+  statusLabels,
+  statusOptions,
+} from "./utils/statusHelper";
 import { useTasks } from "../dashboard/hooks/useTasks";
 import { Button } from "react-native-paper";
 import { useThemeColor } from "../theme/hooks/useThemeColor";
 
 interface Props {
   users: User[];
-  taskData: TaskData
+  taskData: TaskData;
 }
 
 const options = [{ label: "IOS" }, { label: "ANDROID" }, { label: "REACT" }];
 
 const TaskScreenContent = ({ users, taskData }: Props) => {
   const primaryColor = useThemeColor({}, "primary");
-  const { createTask, loading, error } = useTasks();
+  const { createTask, updateTask, loading } = useTasks();
   const {
     control,
     handleSubmit,
@@ -31,7 +38,7 @@ const TaskScreenContent = ({ users, taskData }: Props) => {
     defaultValues: {
       name: taskData.name,
       pointEstimate: getPointEstimateLabel(taskData.pointEstimate),
-      status: getStatusLabel(taskData.status as keyof typeof statusLabels), // ✅ Ensure correct type
+      status: getStatusLabel(taskData.status as keyof typeof statusLabels),
       assigneeId: getAssigneeName(taskData.assigneeId, users),
       tags: taskData.tags,
       dueDate: taskData.dueDate,
@@ -48,8 +55,17 @@ const TaskScreenContent = ({ users, taskData }: Props) => {
           : new Date(data.dueDate).toISOString(),
     };
 
-  console.log(formattedData);
-    await createTask(formattedData);
+    if (taskData.id) {
+      const newData = {
+        ...formattedData,
+        id: taskData.id,
+      }
+      console.log("updateTask", newData);
+      await updateTask(newData);
+    } else {
+      console.log("createTask");
+      await createTask(formattedData);
+    }
   };
 
   return (
@@ -124,7 +140,7 @@ const TaskScreenContent = ({ users, taskData }: Props) => {
         <Controller
           control={control}
           name="assigneeId"
-          render={({ field: { onChange , value} }) => (
+          render={({ field: { onChange, value } }) => (
             <DropdownMenuComponent
               options={usersList}
               leftLabel="Assignee"
@@ -169,8 +185,16 @@ const TaskScreenContent = ({ users, taskData }: Props) => {
         />
 
         <View style={styles.buttonContainer}>
-          <Button loading={loading} textColor="white" buttonColor ={primaryColor}
-          style={{borderRadius: 8}}mode="contained" onPress={handleSubmit(onSubmit)}>Create </Button>
+          <Button
+            loading={loading}
+            textColor="white"
+            buttonColor={primaryColor}
+            style={{ borderRadius: 8 }}
+            mode="contained"
+            onPress={handleSubmit(onSubmit)}
+          >
+            Create{" "}
+          </Button>
         </View>
       </View>
     </ScrollView>

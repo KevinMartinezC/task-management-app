@@ -1,15 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
 
-const pointsArray = [0, 1, 2, 3, 4, 5, 6, 7, 8];
+const pointsArray = [0, 1, 2, 4, 8];
 const numberWords = [
   "ZERO",
   "ONE",
   "TWO",
-  "THREE",
   "FOUR",
-  "FIVE",
-  "SIX",
-  "SEVEN",
   "EIGHT",
 ];
 
