@@ -1,4 +1,4 @@
-import { GET_USERS } from "@/core/queries/get-users-query";
+import { GET_USERS } from "@/core/queries/user/get-users-query";
 import { UsersResponse } from "@/core/user/interfaces/users.interface";
 import { useQuery } from "@apollo/client";
 

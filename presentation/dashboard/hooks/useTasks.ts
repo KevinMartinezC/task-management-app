@@ -1,11 +1,11 @@
-import { GET_TASKS } from "@/core/queries/get-task.query";
+import { GET_TASKS } from "@/core/queries/task/get-task.query";
 import { TaskResponse } from "@/core/tasks/interfaces/task.interface";
 import { useMutation, useQuery } from "@apollo/client";
-import { DELETE_TASK } from "@/core/queries/delete-task.query";
+import { DELETE_TASK } from "@/core/queries/task/delete-task.query";
 import { Alert } from "react-native";
 import { useRef } from "react";
-import { CREATE_TASK_QUERY } from "@/core/queries/create-task.query";
-import { UPDATE_TASK_QUERY } from "@/core/queries/update-task.query";
+import { CREATE_TASK_QUERY } from "@/core/queries/task/create-task.query";
+import { UPDATE_TASK_QUERY } from "@/core/queries/task/update-task.query";
 
 export const useTasks = () => {
   const tasksQuery = useQuery<TaskResponse>(GET_TASKS, {
