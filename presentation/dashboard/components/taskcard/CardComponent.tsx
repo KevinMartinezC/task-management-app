@@ -15,6 +15,7 @@ import TaskMenu from "../TaskMenu";
 import { onDeleteAlert } from "../../utils/onDeleteAlert";
 import { useTasks } from "../../hooks/useTasks";
 import { router } from "expo-router";
+import { ThemedText } from "@/presentation/theme/components/ThemedText";
 
 interface Props {
   task: Task;
@@ -34,10 +35,12 @@ export const TaskCard = ({ task }: Props) => {
     <View style={{ ...styles.card, width: width * 0.9 }}>
       <View style={styles.header}>
         <Text style={styles.title}>{task.name}</Text>
-        <TaskMenu onDelete={onDelete} onEdit={() => router.push(`/task/${task.id}`)} />
+        <TaskMenu
+          onDelete={onDelete}
+          onEdit={() => router.push(`/task/${task.id}`)}
+        />
       </View>
 
-      {/* Puntuación y Etiquetas */}
       <View style={styles.header}>
         <Text style={styles.points}>
           {pointEstimateToNumber(task.pointEstimate)} Pts
@@ -45,7 +48,6 @@ export const TaskCard = ({ task }: Props) => {
         <IconAndTexTag tagText={task.dueDate} />
       </View>
 
-      {/* Tags */}
       <View style={styles.tagContainer}>
         {task.tags.map((tag, index) => (
           <View
@@ -57,15 +59,18 @@ export const TaskCard = ({ task }: Props) => {
         ))}
       </View>
 
-      {/* Pie de Card con Avatar e Iconos alineados a la derecha */}
       <View style={styles.footer}>
-        {/* Imagen de usuario */}
-        <Image
-          source={{ uri: "https://randomuser.me/api/portraits/men/32.jpg" }}
-          style={styles.avatar}
-        />
+        <View style={styles.userInfo}>
+          <Image
+            source={{ uri: "https://randomuser.me/api/portraits/men/32.jpg" }}
+            style={styles.avatar}
+          />
 
-        {/* Iconos de información alineados a la derecha */}
+          <ThemedText style={styles.iconText}>
+            {task.assignee?.fullName || "Unassigned"}
+          </ThemedText>
+        </View>
+
         <View style={styles.iconRow}>
           <Ionicons name="attach-outline" size={16} color="white" />
           <Text style={styles.iconText}>5</Text>
@@ -88,6 +93,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
     shadowOffset: { width: 0, height: 2 },
+  },
+  userInfo: {
+    flexDirection: "row",
+    alignItems: "center",
   },
   header: {
     flexDirection: "row",
@@ -125,6 +134,7 @@ const styles = StyleSheet.create({
     width: 25,
     height: 25,
     borderRadius: 15,
+    marginRight: 5,
   },
   iconRow: {
     flexDirection: "row",
