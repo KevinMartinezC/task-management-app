@@ -13,7 +13,7 @@ import { usePointEstimateToNumber } from "../../utils/pointEstimateToNumber";
 import { getTagColor } from "../../utils/getTagColor";
 import TaskMenu from "../TaskMenu";
 import { onDeleteAlert } from "../../utils/onDeleteAlert";
-import { useTasks } from "../../hooks/useTasks";
+import { useTasks } from "../../../shared/hooks/useTasks";
 import { router } from "expo-router";
 import { ThemedText } from "@/presentation/theme/components/ThemedText";
 

@@ -16,7 +16,7 @@ import {
   statusLabels,
   statusOptions,
 } from "./utils/statusHelper";
-import { useTasks } from "../dashboard/hooks/useTasks";
+import { useTasks } from "../shared/hooks/useTasks";
 import { Button } from "react-native-paper";
 import { useThemeColor } from "../theme/hooks/useThemeColor";
 

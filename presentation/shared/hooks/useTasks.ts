@@ -6,6 +6,7 @@ import { Alert } from "react-native";
 import { useRef } from "react";
 import { CREATE_TASK_QUERY } from "@/core/queries/task/create-task.query";
 import { UPDATE_TASK_QUERY } from "@/core/queries/task/update-task.query";
+import { MESSAGES } from "@/constants/Messages";
 
 export const useTasks = () => {
   const tasksQuery = useQuery<TaskResponse>(GET_TASKS, {
@@ -38,11 +39,11 @@ export const useTasks = () => {
       }
     },
     onCompleted() {
-      Alert.alert("Task Deleted", "The task was successfully deleted");
+      Alert.alert("Task Deleted", MESSAGES.SUCCESS.TASK_DELETED);
     },
     onError(error) {
       console.error(error);
-      Alert.alert("Error", "There was an error deleting the task");
+      Alert.alert("Error", MESSAGES.ERROR.TASK_DELETE);
     },
   });
 
@@ -67,11 +68,11 @@ export const useTasks = () => {
       },
 
       onCompleted() {
-        Alert.alert("Task Created", "The task was successfully created!");
+        Alert.alert("Task Created", MESSAGES.SUCCESS.TASK_CREATED);
       },
 
       onError() {
-        Alert.alert("Error", "There was an error creating the task");
+        Alert.alert("Error", MESSAGES.ERROR.TASK_CREATE);
       },
     }
   );
@@ -79,14 +80,14 @@ export const useTasks = () => {
   const [updateTaskMutation] = useMutation(UPDATE_TASK_QUERY, {
     update(cache, { data }) {
       if (!data) return;
-  
-      const updatedTask = data.updateTask; 
-  
+
+      const updatedTask = data.updateTask;
+
       const existingTasks = cache.readQuery<TaskResponse>({
         query: GET_TASKS,
         variables: { input: {} },
       });
-  
+
       if (existingTasks) {
         cache.writeQuery<TaskResponse>({
           query: GET_TASKS,
@@ -99,15 +100,15 @@ export const useTasks = () => {
         });
       }
     },
-  
+
     onCompleted() {
-      Alert.alert("Task Updated", "The task was successfully updated!");
+      Alert.alert("Task Updated", MESSAGES.SUCCESS.TASK_UPDATED);
     },
-  
+
     onError() {
-      Alert.alert("Error", "There was an error updating the task");
+      Alert.alert("Error", MESSAGES.ERROR.TASK_UPDATE);
     },
-  });  
+  });
 
   const deleteTask = async (taskId: string) => {
     try {
@@ -146,7 +147,7 @@ export const useTasks = () => {
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   return {
     tasksQuery,

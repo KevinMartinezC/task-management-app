@@ -2,7 +2,7 @@ import React from "react";
 import { useUser } from "@/presentation/tasks/hooks/useUser";
 import { ActivityIndicator } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { useTasks } from "@/presentation/dashboard/hooks/useTasks";
+import { useTasks } from "@/presentation/shared/hooks/useTasks";
 import { mapTaskToTaskData } from "@/core/tasks/mappers/mapTaskToTaskData";
 import AddorUpdateTaskScreenContent from "@/presentation/tasks/AddorUpdateTaskScreenContent";
 

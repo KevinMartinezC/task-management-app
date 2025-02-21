@@ -1,7 +1,7 @@
 import { View, Text, ActivityIndicator } from 'react-native'
 import React from 'react'
 import MyTacksScreenContent from '@/presentation/mytasks/MyTacksScreenContent'
-import { useTasks } from '@/presentation/dashboard/hooks/useTasks';
+import { useTasks } from '@/presentation/shared/hooks/useTasks';
 
 const TaskScreen = () => {
   const { tasksQuery } = useTasks();

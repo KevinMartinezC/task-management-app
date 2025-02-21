@@ -7,7 +7,7 @@ import {
   Image,
 } from "react-native";
 import React, { useState } from "react";
-import { useTasks } from "@/presentation/dashboard/hooks/useTasks";
+import { useTasks } from "@/presentation/shared/hooks/useTasks";
 import { FAB } from "@/presentation/theme/components/FAB";
 import TaskList from "@/presentation/dashboard/components/TaskList";
 import { router } from "expo-router";
