@@ -3,7 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import ThemedTextInput from "../theme/components/ThemedTextInput";
 import DropdownMenuComponent from "./components/DropdownMenu";
 import {
-  estimatePointsOptions,
+ estimatePointsOptions,
   getPointEstimateLabel,
 } from "./utils/estimatePoint";
 import { User } from "@/core/user/interfaces/users.interface";
@@ -27,7 +27,7 @@ interface Props {
 
 const options = [{ label: "IOS" }, { label: "ANDROID" }, { label: "REACT" }];
 
-const TaskScreenContent = ({ users, taskData }: Props) => {
+const AddorUpdateTaskScreenContent = ({ users, taskData }: Props) => {
   const primaryColor = useThemeColor({}, "primary");
   const { createTask, updateTask, loading } = useTasks();
   const {
@@ -60,13 +60,12 @@ const TaskScreenContent = ({ users, taskData }: Props) => {
         ...formattedData,
         id: taskData.id,
       }
-      console.log("updateTask", newData);
       await updateTask(newData);
     } else {
-      console.log("createTask");
       await createTask(formattedData);
     }
   };
+
 
   return (
     <ScrollView>
@@ -193,7 +192,7 @@ const TaskScreenContent = ({ users, taskData }: Props) => {
             mode="contained"
             onPress={handleSubmit(onSubmit)}
           >
-            Create{" "}
+           {taskData.id ? "Update Task" : "Create Task"}
           </Button>
         </View>
       </View>
@@ -201,7 +200,7 @@ const TaskScreenContent = ({ users, taskData }: Props) => {
   );
 };
 
-export default TaskScreenContent;
+export default AddorUpdateTaskScreenContent;
 
 const styles = StyleSheet.create({
   container: {

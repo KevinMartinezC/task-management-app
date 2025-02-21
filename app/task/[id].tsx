@@ -1,10 +1,10 @@
 import React from "react";
-import TaskScreenContent from "@/presentation/tasks/TaskScreenContent";
 import { useUser } from "@/presentation/tasks/hooks/useUser";
 import { ActivityIndicator } from "react-native";
 import { useLocalSearchParams } from "expo-router";
 import { useTasks } from "@/presentation/dashboard/hooks/useTasks";
 import { mapTaskToTaskData } from "@/core/tasks/mappers/mapTaskToTaskData";
+import AddorUpdateTaskScreenContent from "@/presentation/tasks/AddorUpdateTaskScreenContent";
 
 const createTaskScreen = () => {
   const { usersQuery } = useUser();
@@ -18,7 +18,7 @@ const createTaskScreen = () => {
   const taskData = mapTaskToTaskData(task);
 
   return (
-    <TaskScreenContent
+    <AddorUpdateTaskScreenContent
       users={usersQuery?.data?.users ?? []}
       taskData={taskData}
     />
