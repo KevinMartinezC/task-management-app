@@ -12,21 +12,18 @@ const statusMapping: Record<string, string> = {
 };
 
 export const groupTasksByStatus = (tasks: Task[]) => {
-  return useCallback(() => {
-    if (!tasks || tasks.length === 0) return [];
+  if (!tasks || tasks.length === 0) return [];
 
-    const grouped = tasks.reduce((acc, task) => {
-      const { status } = task;
-      if (!acc[status]) {
-        acc[status] = [];
-      }
-      acc[status].push(task);
-      return acc;
-    }, {} as Record<string, Task[]>);
+  const grouped = tasks.reduce((acc, task) => {
+    const { status } = task;
+    if (!acc[status]) acc[status] = [];
+    acc[status].push(task);
+    return acc;
+  }, {} as Record<string, Task[]>);
 
-    return Object.keys(grouped).map((status) => ({
-      title: `${statusMapping[status] || status} (${grouped[status].length})`,
-      data: grouped[status],
-    }));
-  }, [tasks]);
+  return Object.keys(grouped).map((status) => ({
+    title: `${statusMapping[status] || status} (${grouped[status].length})`,
+    data: grouped[status],
+  }));
 };
+

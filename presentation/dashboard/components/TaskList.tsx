@@ -16,12 +16,11 @@ interface Props {
 
 const TaskList = ({ tasks }: Props) => {
   const getSections = groupTasksByStatus(tasks);
-  const sections = getSections();
 
   return (
     <SectionList
       style={styles.listStyle}
-      sections={sections}
+      sections={getSections}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => <TaskCard task={item} />}
       renderSectionHeader={({ section: { title } }) => (
