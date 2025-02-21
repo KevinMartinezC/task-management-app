@@ -20,6 +20,7 @@ import { ThemedText } from "@/presentation/theme/components/ThemedText";
 interface Props {
   task: Task;
 }
+
 export const TaskCard = ({ task }: Props) => {
   const { width } = useWindowDimensions();
   const pointEstimateToNumber = usePointEstimateToNumber();

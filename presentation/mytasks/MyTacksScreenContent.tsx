@@ -10,11 +10,10 @@ import {
 import { Menu, Divider } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
 import { Task } from "@/core/tasks/interfaces/task.interface";
-import { getPointEstimateLabel } from "../tasks/utils/estimatePoint";
-import TagComponent from "./components/TagComponent";
 import { groupTasksByStatus } from "../dashboard/utils/groupTasksByStatus";
 import { COLUMN_OPTIONS } from "./utils/columnOptions";
 import TaskGroupComponent from "./components/TaskItem";
+import { getColumnValue } from "./utils/getColumnValue";
 
 type ColumnOption = (typeof COLUMN_OPTIONS)[number];
 
@@ -23,21 +22,7 @@ const MyTacksScreenContent = ({ tasks }: { tasks: Task[] }) => {
   const [selectedColumn, setSelectedColumn] = useState<ColumnOption>(
     COLUMN_OPTIONS[0]
   );
-
   const groupedTasks = groupTasksByStatus(tasks);
-  
-  const getColumnValue = (task: Task, column: ColumnOption["key"]): string => {
-    switch (column) {
-      case "assignee":
-        return task.assignee ? task.assignee.fullName : "-";
-      case "dueDate":
-        return new Date(task.dueDate).toLocaleDateString() ?? "-";
-      case "pointEstimate":
-        return getPointEstimateLabel(task.pointEstimate) ?? "-";
-      default:
-        return String(task[column]) ?? "-";
-    }
-  };  
 
   return (
     <View style={styles.container}>
@@ -83,11 +68,11 @@ const MyTacksScreenContent = ({ tasks }: { tasks: Task[] }) => {
         style={styles.list}
         renderItem={({ item }) => (
           <TaskGroupComponent
-          title={item.title}
-          tasks={item.data}
-          selectedColumnKey={selectedColumn.key}
-          getColumnValue={getColumnValue}
-        />
+            title={item.title}
+            tasks={item.data}
+            selectedColumnKey={selectedColumn.key}
+            getColumnValue={getColumnValue}
+          />
         )}
       />
     </View>
@@ -124,27 +109,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
   },
-  statusHeader: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: "#fff",
-    backgroundColor: "#272626",
-    paddingVertical: 8,
-    paddingHorizontal: 10,
-    marginTop: 10,
-  },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#444",
-  },
-  cell: {
-    color: "white",
-    flex: 1,
-    textAlign: "left",
-  },
   menu: {
     backgroundColor: "#1e1e1e",
     borderWidth: 1,
@@ -156,5 +120,5 @@ const styles = StyleSheet.create({
   },
   list: {
     marginBottom: Platform.OS === "ios" ? 100 : 0,
-  }
+  },
 });
