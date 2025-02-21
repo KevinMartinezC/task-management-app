@@ -14,6 +14,7 @@ import { getPointEstimateLabel } from "../tasks/utils/estimatePoint";
 import TagComponent from "./components/TagComponent";
 import { groupTasksByStatus } from "../dashboard/utils/groupTasksByStatus";
 import { COLUMN_OPTIONS } from "./utils/columnOptions";
+import TaskGroupComponent from "./components/TaskItem";
 
 type ColumnOption = (typeof COLUMN_OPTIONS)[number];
 
@@ -25,7 +26,7 @@ const MyTacksScreenContent = ({ tasks }: { tasks: Task[] }) => {
 
   const groupedTasks = groupTasksByStatus(tasks);
   
-  const getColumnValue = (task: Task, column: ColumnOption["key"]) => {
+  const getColumnValue = (task: Task, column: ColumnOption["key"]): string => {
     switch (column) {
       case "assignee":
         return task.assignee ? task.assignee.fullName : "-";
@@ -34,9 +35,9 @@ const MyTacksScreenContent = ({ tasks }: { tasks: Task[] }) => {
       case "pointEstimate":
         return getPointEstimateLabel(task.pointEstimate) ?? "-";
       default:
-        return task[column] ?? "-";
+        return String(task[column]) ?? "-";
     }
-  };
+  };  
 
   return (
     <View style={styles.container}>
@@ -78,24 +79,15 @@ const MyTacksScreenContent = ({ tasks }: { tasks: Task[] }) => {
       <FlatList
         data={groupedTasks}
         keyExtractor={(item) => item.title}
+        showsVerticalScrollIndicator={false}
+        style={styles.list}
         renderItem={({ item }) => (
-          <View>
-            <Text style={styles.statusHeader}>{item.title}</Text>
-            {item.data.map((task) => (
-              <View key={task.id} style={styles.row}>
-                <Text style={styles.cell}>{task.name}</Text>
-                <View style={styles.cell}>
-                  {selectedColumn.key === "tags" ? (
-                    <TagComponent tags={task.tags} />
-                  ) : (
-                    <Text style={styles.cell}>
-                      {getColumnValue(task, selectedColumn.key)}
-                    </Text>
-                  )}
-                </View>
-              </View>
-            ))}
-          </View>
+          <TaskGroupComponent
+          title={item.title}
+          tasks={item.data}
+          selectedColumnKey={selectedColumn.key}
+          getColumnValue={getColumnValue}
+        />
         )}
       />
     </View>
@@ -116,6 +108,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingVertical: 10,
     borderBottomWidth: 1,
+    marginTop: 10,
     backgroundColor: "#333",
     borderBottomColor: "#ccc",
   },
@@ -161,4 +154,7 @@ const styles = StyleSheet.create({
   menuItemText: {
     color: "white",
   },
+  list: {
+    marginBottom: Platform.OS === "ios" ? 100 : 0,
+  }
 });
