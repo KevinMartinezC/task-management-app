@@ -1,7 +1,6 @@
-import { useCallback } from "react";
 
 export const usePointEstimateToNumber = () => {
-  return useCallback((estimate: string): string => {
+  return (estimate: string): string => {
     switch (estimate) {
       case "ONE":
         return "1";
@@ -18,5 +17,5 @@ export const usePointEstimateToNumber = () => {
       default:
         return "0";
     }
-  }, []);
+  };
 };
