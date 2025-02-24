@@ -41,17 +41,12 @@ const CustomMultiSelect = ({
     onSelect(updated);
   };
 
-  /** Remove an item from the selected array without opening the dropdown. */
   const removeTag = (label: string) => {
     const updated = selected.filter((item) => item !== label);
     setSelected(updated);
     onSelect(updated);
   };
 
-  /**
-   * Renders the selected items as small "tags"
-   * with a little X button inside each tag to remove it.
-   */
   const renderSelectedItems = () => {
     if (selected.length === 0) {
       return <Text style={styles.openButtonText}>{leftLabel}</Text>;
@@ -61,8 +56,6 @@ const CustomMultiSelect = ({
         {selected.map((item) => (
           <View key={item} style={styles.tagBox}>
             <Text style={styles.tagText}>{item}</Text>
-
-            {/* X button inside the tag to remove that item */}
             <TouchableOpacity
               onPress={() => removeTag(item)}
               style={styles.tagCloseButton}
@@ -77,11 +70,8 @@ const CustomMultiSelect = ({
 
   return (
     <View style={styles.container}>
-      {/* Press this to open the dropdown (Portal/Modal) */}
       <Pressable onPress={open} style={styles.openButton}>
-        {/* Outer row: space-between to push left section and chevron apart */}
         <View style={styles.row}>
-          {/* Left section: plus icon + tags */}
           <View style={styles.leftSection}>
             <Ionicons
               name="pricetag-outline"
@@ -91,8 +81,6 @@ const CustomMultiSelect = ({
             />
             {renderSelectedItems()}
           </View>
-
-          {/* Right icon: chevron */}
           <Ionicons
             name="add-outline"
             size={25}
@@ -102,12 +90,10 @@ const CustomMultiSelect = ({
         </View>
       </Pressable>
 
-      {/* The Portal draws above other content */}
       <Portal>
         {visible && (
           <View style={styles.overlay}>
             <View style={styles.dropdown}>
-              {/* Header row with a title and an 'X' to close */}
               <View style={styles.headerRow}>
                 <Text style={styles.title}>Select Options</Text>
                 <TouchableOpacity onPress={close} style={styles.closeButton}>
@@ -115,7 +101,6 @@ const CustomMultiSelect = ({
                 </TouchableOpacity>
               </View>
 
-              {/* List of options with checkboxes */}
               {options.map((item) => (
                 <TouchableOpacity
                   key={item.label}
@@ -151,11 +136,10 @@ const styles = StyleSheet.create({
     paddingVertical: 14,
     paddingHorizontal: 10,
   },
-  /** Row that contains left + right sections */
   row: {
     flexDirection: "row",
     alignItems: "flex-start",
-    justifyContent: "flex-start", // Left side on left, chevron on right
+    justifyContent: "flex-start",
     flexWrap: "wrap",
   },
   leftSection: {
@@ -168,14 +152,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
   },
-  /** Wraps all the tags so they can break into multiple lines if needed */
+
   tagContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
   },
-  /** Each individual tag box */
   tagBox: {
-    flexDirection: "row", // So label + X are in a row
+    flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#444",
     borderRadius: 4,
@@ -188,9 +171,8 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 14,
   },
-  /** The X button inside each tag */
   tagCloseButton: {
-    marginLeft: 6, // gap between label and X
+    marginLeft: 6,
   },
 
   overlay: {

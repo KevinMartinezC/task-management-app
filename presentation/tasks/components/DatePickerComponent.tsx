@@ -15,7 +15,7 @@ const DatePickerComponent = ({ date, onChange }: DatePickerProps) => {
     if (Platform.OS === "android") {
       DateTimePickerAndroid.open({
         value: date,
-        onChange: (event, selectedDate) => {
+        onChange: (_event, selectedDate) => {
           if (selectedDate) onChange(selectedDate);
         },
         mode: "date",
