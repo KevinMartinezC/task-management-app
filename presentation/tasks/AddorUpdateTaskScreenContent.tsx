@@ -2,23 +2,17 @@ import { View, StyleSheet, Platform, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import ThemedTextInput from "../theme/components/ThemedTextInput";
 import DropdownMenuComponent from "./components/DropdownMenu";
-import {
- estimatePointsOptions,
-  getPointEstimateLabel,
-} from "./utils/estimatePoint";
+import { estimatePointsOptions } from "./utils/estimatePoint";
 import { User } from "@/core/user/interfaces/users.interface";
-import { generateUserList, getAssigneeName } from "./utils/userListHelper";
+import { generateUserList } from "./utils/userListHelper";
 import MultiSelectDropdown from "./components/MultiSelectDropdown";
 import { ThemedText } from "../theme/components/ThemedText";
 import DatePickerComponent from "./components/DatePickerComponent";
-import {
-  getStatusLabel,
-  statusLabels,
-  statusOptions,
-} from "./utils/statusHelper";
-import { useTasks } from "../dashboard/hooks/useTasks";
+import { statusOptions } from "./utils/statusHelper";
+import { useTasks } from "../shared/hooks/useTasks";
 import { Button } from "react-native-paper";
 import { useThemeColor } from "../theme/hooks/useThemeColor";
+import { TaskMappers } from "@/core/tasks/mappers/Task.mappers";
 
 interface Props {
   users: User[];
@@ -35,37 +29,18 @@ const AddorUpdateTaskScreenContent = ({ users, taskData }: Props) => {
     handleSubmit,
     formState: { errors },
   } = useForm<TaskData>({
-    defaultValues: {
-      name: taskData.name,
-      pointEstimate: getPointEstimateLabel(taskData.pointEstimate),
-      status: getStatusLabel(taskData.status as keyof typeof statusLabels),
-      assigneeId: getAssigneeName(taskData.assigneeId, users),
-      tags: taskData.tags,
-      dueDate: taskData.dueDate,
-    },
+    defaultValues: taskData,
   });
 
   const usersList = generateUserList(users);
   const onSubmit = async (data: TaskData) => {
-    const formattedData = {
-      ...data,
-      dueDate:
-        typeof data.dueDate === "string"
-          ? data.dueDate
-          : new Date(data.dueDate).toISOString(),
-    };
-
+    const preparedData = TaskMappers.prepareTaskDataForBackend(data, users);
     if (taskData.id) {
-      const newData = {
-        ...formattedData,
-        id: taskData.id,
-      }
-      await updateTask(newData);
+      await updateTask(preparedData);
     } else {
-      await createTask(formattedData);
+      await createTask(preparedData);
     }
   };
-
 
   return (
     <ScrollView>
@@ -192,7 +167,7 @@ const AddorUpdateTaskScreenContent = ({ users, taskData }: Props) => {
             mode="contained"
             onPress={handleSubmit(onSubmit)}
           >
-           {taskData.id ? "Update Task" : "Create Task"}
+            {taskData.id ? "Update Task" : "Create Task"}
           </Button>
         </View>
       </View>

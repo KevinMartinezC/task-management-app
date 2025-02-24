@@ -7,19 +7,20 @@ import {
   Image,
 } from "react-native";
 import React, { useState } from "react";
-import { useTasks } from "@/presentation/dashboard/hooks/useTasks";
+import { useTasks } from "@/presentation/shared/hooks/useTasks";
 import { FAB } from "@/presentation/theme/components/FAB";
 import TaskList from "@/presentation/dashboard/components/TaskList";
 import { router } from "expo-router";
 import { Searchbar } from "react-native-paper";
 import { Ionicons } from "@expo/vector-icons";
+import LoadingIndicator from "@/presentation/shared/components/LoadingIndicator";
 
 const DashboardScreen = () => {
   const { tasksQuery } = useTasks();
   const [searchQuery, setSearchQuery] = useState("");
 
   if (tasksQuery.loading || !tasksQuery.data) {
-    return <ActivityIndicator />;
+    return <LoadingIndicator/>;
   }
 
   const filteredTasks = tasksQuery.data.tasks.filter((task) =>

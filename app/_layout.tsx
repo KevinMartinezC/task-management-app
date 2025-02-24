@@ -15,7 +15,7 @@ import { apolloClient } from "@/core/api/ApolloClient";
 import { PaperProvider } from "react-native-paper";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useThemeColor } from "@/presentation/theme/hooks/useThemeColor";
-
+import { SCREENS } from "@/constants/Screens";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -38,30 +38,36 @@ export default function RootLayout() {
   }
 
   return (
-    <GestureHandlerRootView style={{backgroundColor: backgroundColor, flex: 1}}>
-    <ApolloProvider client={apolloClient}>
-      <PaperProvider>
-        <ThemeProvider
-          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
-        >
-          <Stack>
-            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-            <Stack.Screen name="task/[id]" options={{
-              title: "Create Task",
-              headerBackTitle: "Back",
-            }}
-            />
-             <Stack.Screen name="profile/index" options={{
-              title: "Profile",
-              headerBackTitle: "Back",
-            }}
-            />
-            <Stack.Screen name="+not-found" />
-          </Stack>
-          <StatusBar style="auto" />
-        </ThemeProvider>
+    <GestureHandlerRootView
+      style={{ backgroundColor: backgroundColor, flex: 1 }}
+    >
+      <ApolloProvider client={apolloClient}>
+        <PaperProvider>
+          <ThemeProvider
+            value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+          >
+            <Stack>
+              <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+              <Stack.Screen
+                name={SCREENS.TASK.name}
+                options={{
+                  title: SCREENS.TASK.title,
+                  headerBackTitle: SCREENS.TASK.headerBackTitle,
+                }}
+              />
+              <Stack.Screen
+                name={SCREENS.PROFILE.name}
+                options={{
+                  title: SCREENS.PROFILE.title,
+                  headerBackTitle: SCREENS.PROFILE.headerBackTitle,
+                }}
+              />
+              <Stack.Screen name="+not-found" />
+            </Stack>
+            <StatusBar style="auto" />
+          </ThemeProvider>
         </PaperProvider>
-    </ApolloProvider>
+      </ApolloProvider>
     </GestureHandlerRootView>
   );
 }
